@@ -114,6 +114,21 @@ export function DashboardSidebar() {
           isActive={location.pathname === '/reports'}
           collapsed={collapsed}
         />
+
+        {/* <NavItem //IMPLEMTNAR FUTURAMENTE
+          icon={<PieChart className="h-5 w-5" />}
+          title="Goals"
+          href="/goals"
+          isActive={location.pathname === '/goals'}
+          collapsed={collapsed}
+        />
+        <NavItem
+          icon={<PieChart className="h-5 w-5" />}
+          title="Calendar"
+          href="/calendar"
+          isActive={location.pathname === '/calendar'}
+          collapsed={collapsed}
+        /> */}
       </nav>
 
       <div className="border-t border-border/40 p-2 dark:border-border/20">

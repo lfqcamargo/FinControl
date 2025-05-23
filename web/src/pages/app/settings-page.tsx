@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,8 +11,92 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ModeToggle } from '@/components/ui/theme/theme-toggle'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 export function SettingsPage() {
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false)
+  const [isProfileSaved, setIsProfileSaved] = useState(false)
+  const [isPreferencesSaved, setIsPreferencesSaved] = useState(false)
+  const [isRegionSaved, setIsRegionSaved] = useState(false)
+
+  const [profileForm, setProfileForm] = useState({
+    name: 'Lucas Fernando Quinato de Camargo',
+    email: 'lfqcamargo@gmail.com',
+    phone: '',
+  })
+
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  })
+
+  const [preferences, setPreferences] = useState({
+    notifications: true,
+    emailNotifications: true,
+    budgetAlerts: true,
+  })
+
+  const [regionSettings, setRegionSettings] = useState({
+    currency: 'BRL',
+    dateFormat: 'DD/MM/YYYY',
+    language: 'pt-BR',
+  })
+
+  // Função para salvar o perfil
+  const saveProfile = () => {
+    console.log('Salvando perfil:', profileForm)
+    setIsProfileSaved(true)
+    setTimeout(() => setIsProfileSaved(false), 3000)
+  }
+
+  // Função para atualizar a senha
+  const updatePassword = () => {
+    // Validação básica
+    if (
+      !passwordForm.currentPassword ||
+      !passwordForm.newPassword ||
+      !passwordForm.confirmPassword
+    ) {
+      alert('Por favor, preencha todos os campos.')
+      return
+    }
+
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      alert('As senhas não coincidem.')
+      return
+    }
+
+    console.log('Atualizando senha')
+    setPasswordForm({
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    })
+    setIsPasswordDialogOpen(false)
+  }
+
+  // Função para salvar preferências
+  const savePreferences = () => {
+    console.log('Salvando preferências:', preferences)
+    setIsPreferencesSaved(true)
+    setTimeout(() => setIsPreferencesSaved(false), 3000)
+  }
+
+  // Função para salvar configurações regionais
+  const saveRegionSettings = () => {
+    console.log('Salvando configurações regionais:', regionSettings)
+    setIsRegionSaved(true)
+    setTimeout(() => setIsRegionSaved(false), 3000)
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -30,12 +115,21 @@ export function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4">
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault()
+                saveProfile()
+              }}
+            >
               <div className="space-y-2">
                 <Label htmlFor="name">Nome completo</Label>
                 <Input
                   id="name"
-                  defaultValue="Lucas Fernando Quinato de Camargo"
+                  value={profileForm.name}
+                  onChange={(e) =>
+                    setProfileForm({ ...profileForm, name: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -43,14 +137,27 @@ export function SettingsPage() {
                 <Input
                   id="email"
                   type="email"
-                  defaultValue="lfqcamargo@gmail.com"
+                  value={profileForm.email}
+                  onChange={(e) =>
+                    setProfileForm({ ...profileForm, email: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Telefone</Label>
-                <Input id="phone" type="tel" placeholder="(00) 00000-0000" />
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="(00) 00000-0000"
+                  value={profileForm.phone}
+                  onChange={(e) =>
+                    setProfileForm({ ...profileForm, phone: e.target.value })
+                  }
+                />
               </div>
-              <Button>Salvar alterações</Button>
+              <Button type="submit">
+                {isProfileSaved ? 'Salvo com sucesso!' : 'Salvar alterações'}
+              </Button>
             </form>
           </CardContent>
         </Card>
@@ -63,21 +170,19 @@ export function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="current-password">Senha atual</Label>
-                <Input id="current-password" type="password" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="new-password">Nova senha</Label>
-                <Input id="new-password" type="password" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirmar nova senha</Label>
-                <Input id="confirm-password" type="password" />
-              </div>
-              <Button>Atualizar senha</Button>
-            </form>
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Sua senha deve ter pelo menos 8 caracteres e incluir letras
+                maiúsculas, minúsculas, números e caracteres especiais.
+              </p>
+              <p className="text-sm">
+                Última atualização de senha:{' '}
+                <span className="font-medium">15/04/2023</span>
+              </p>
+              <Button onClick={() => setIsPasswordDialogOpen(true)}>
+                Alterar senha
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
@@ -101,7 +206,16 @@ export function SettingsPage() {
 
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
-                <Checkbox id="notifications" defaultChecked />
+                <Checkbox
+                  id="notifications"
+                  checked={preferences.notifications}
+                  onCheckedChange={(checked) =>
+                    setPreferences({
+                      ...preferences,
+                      notifications: checked as boolean,
+                    })
+                  }
+                />
                 <div className="space-y-1 leading-none">
                   <Label htmlFor="notifications">Notificações</Label>
                   <p className="text-sm text-muted-foreground">
@@ -111,7 +225,16 @@ export function SettingsPage() {
               </div>
 
               <div className="flex items-start space-x-3">
-                <Checkbox id="email-notifications" defaultChecked />
+                <Checkbox
+                  id="email-notifications"
+                  checked={preferences.emailNotifications}
+                  onCheckedChange={(checked) =>
+                    setPreferences({
+                      ...preferences,
+                      emailNotifications: checked as boolean,
+                    })
+                  }
+                />
                 <div className="space-y-1 leading-none">
                   <Label htmlFor="email-notifications">
                     Notificações por e-mail
@@ -123,7 +246,16 @@ export function SettingsPage() {
               </div>
 
               <div className="flex items-start space-x-3">
-                <Checkbox id="budget-alerts" defaultChecked />
+                <Checkbox
+                  id="budget-alerts"
+                  checked={preferences.budgetAlerts}
+                  onCheckedChange={(checked) =>
+                    setPreferences({
+                      ...preferences,
+                      budgetAlerts: checked as boolean,
+                    })
+                  }
+                />
                 <div className="space-y-1 leading-none">
                   <Label htmlFor="budget-alerts">Alertas de orçamento</Label>
                   <p className="text-sm text-muted-foreground">
@@ -134,7 +266,11 @@ export function SettingsPage() {
               </div>
             </div>
 
-            <Button>Salvar preferências</Button>
+            <Button onClick={savePreferences}>
+              {isPreferencesSaved
+                ? 'Salvo com sucesso!'
+                : 'Salvar preferências'}
+            </Button>
           </CardContent>
         </Card>
 
@@ -151,7 +287,13 @@ export function SettingsPage() {
               <select
                 id="currency"
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                defaultValue="BRL"
+                value={regionSettings.currency}
+                onChange={(e) =>
+                  setRegionSettings({
+                    ...regionSettings,
+                    currency: e.target.value,
+                  })
+                }
               >
                 <option value="BRL">Real Brasileiro (R$)</option>
                 <option value="USD">Dólar Americano ($)</option>
@@ -165,7 +307,13 @@ export function SettingsPage() {
               <select
                 id="date-format"
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                defaultValue="DD/MM/YYYY"
+                value={regionSettings.dateFormat}
+                onChange={(e) =>
+                  setRegionSettings({
+                    ...regionSettings,
+                    dateFormat: e.target.value,
+                  })
+                }
               >
                 <option value="DD/MM/YYYY">DD/MM/AAAA</option>
                 <option value="MM/DD/YYYY">MM/DD/AAAA</option>
@@ -178,7 +326,13 @@ export function SettingsPage() {
               <select
                 id="language"
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                defaultValue="pt-BR"
+                value={regionSettings.language}
+                onChange={(e) =>
+                  setRegionSettings({
+                    ...regionSettings,
+                    language: e.target.value,
+                  })
+                }
               >
                 <option value="pt-BR">Português (Brasil)</option>
                 <option value="en-US">English (US)</option>
@@ -186,10 +340,80 @@ export function SettingsPage() {
               </select>
             </div>
 
-            <Button>Salvar configurações</Button>
+            <Button onClick={saveRegionSettings}>
+              {isRegionSaved ? 'Salvo com sucesso!' : 'Salvar configurações'}
+            </Button>
           </CardContent>
         </Card>
       </div>
+
+      {/* Modal para Alterar Senha */}
+      <Dialog
+        open={isPasswordDialogOpen}
+        onOpenChange={setIsPasswordDialogOpen}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Alterar Senha</DialogTitle>
+            <DialogDescription>
+              Crie uma nova senha para sua conta.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="current-password">Senha atual</Label>
+              <Input
+                id="current-password"
+                type="password"
+                value={passwordForm.currentPassword}
+                onChange={(e) =>
+                  setPasswordForm({
+                    ...passwordForm,
+                    currentPassword: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="new-password">Nova senha</Label>
+              <Input
+                id="new-password"
+                type="password"
+                value={passwordForm.newPassword}
+                onChange={(e) =>
+                  setPasswordForm({
+                    ...passwordForm,
+                    newPassword: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Confirmar nova senha</Label>
+              <Input
+                id="confirm-password"
+                type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) =>
+                  setPasswordForm({
+                    ...passwordForm,
+                    confirmPassword: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsPasswordDialogOpen(false)}
+            >
+              Cancelar
+            </Button>
+            <Button onClick={updatePassword}>Atualizar senha</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

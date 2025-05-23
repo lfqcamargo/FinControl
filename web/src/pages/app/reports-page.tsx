@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -7,8 +8,80 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { CalendarIcon, DownloadIcon, FilterIcon } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 
 export function ReportsPage() {
+  const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false)
+  const [isDateRangeDialogOpen, setIsDateRangeDialogOpen] = useState(false)
+  const [filters, setFilters] = useState({
+    period: 'month',
+    category: 'all',
+  })
+
+  // Dados de exemplo para categorias
+  const categories = [
+    {
+      id: 1,
+      name: 'Alimentação',
+      color: '#F97316',
+      value: 650,
+      percentage: 22,
+    },
+    { id: 2, name: 'Moradia', color: '#8B5CF6', value: 1200, percentage: 41 },
+    { id: 3, name: 'Transporte', color: '#06B6D4', value: 320, percentage: 11 },
+    { id: 4, name: 'Outros', color: '#10B981', value: 730, percentage: 26 },
+  ]
+
+  // Dados de exemplo para receitas e despesas
+  const financialData = {
+    income: 6500,
+    expense: 2900,
+    balance: 3600,
+  }
+
+  // Dados de exemplo para tendência de gastos
+  const monthlyExpenses = [
+    { month: 'Janeiro', value: 2800 },
+    { month: 'Fevereiro', value: 3100 },
+    { month: 'Março', value: 2950 },
+    { month: 'Abril', value: 3200 },
+    { month: 'Maio', value: 2750 },
+    { month: 'Junho', value: 2900 },
+  ]
+
+  // Função para aplicar filtros
+  const applyFilters = () => {
+    console.log('Aplicando filtros:', filters)
+    setIsFilterDialogOpen(false)
+  }
+
+  // Função para aplicar período
+  const applyDateRange = () => {
+    console.log('Aplicando período:', filters.period)
+    setIsDateRangeDialogOpen(false)
+  }
+
+  // Função para exportar relatórios
+  const exportReports = () => {
+    alert('Funcionalidade de exportação será implementada em breve!')
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
@@ -19,15 +92,23 @@ export function ReportsPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="gap-2">
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={() => setIsFilterDialogOpen(true)}
+          >
             <FilterIcon className="h-4 w-4" />
             Filtros
           </Button>
-          <Button variant="outline" className="gap-2">
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={() => setIsDateRangeDialogOpen(true)}
+          >
             <CalendarIcon className="h-4 w-4" />
             Período
           </Button>
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={exportReports}>
             <DownloadIcon className="h-4 w-4" />
             Exportar
           </Button>
@@ -53,34 +134,23 @@ export function ReportsPage() {
               </div>
             </div>
             <div className="mt-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-[#F97316]" />
-                  <span className="text-sm">Alimentação</span>
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="h-3 w-3 rounded-full"
+                      style={{ backgroundColor: category.color }}
+                    />
+                    <span className="text-sm">{category.name}</span>
+                  </div>
+                  <span className="text-sm">
+                    R$ {category.value.toFixed(2)} ({category.percentage}%)
+                  </span>
                 </div>
-                <span className="text-sm">R$ 650,00 (22%)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-[#8B5CF6]" />
-                  <span className="text-sm">Moradia</span>
-                </div>
-                <span className="text-sm">R$ 1.200,00 (41%)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-[#06B6D4]" />
-                  <span className="text-sm">Transporte</span>
-                </div>
-                <span className="text-sm">R$ 320,00 (11%)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-[#10B981]" />
-                  <span className="text-sm">Outros</span>
-                </div>
-                <span className="text-sm">R$ 730,00 (26%)</span>
-              </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -108,19 +178,23 @@ export function ReportsPage() {
                   <div className="h-3 w-3 rounded-full bg-emerald-500" />
                   <span className="text-sm">Receitas</span>
                 </div>
-                <span className="text-sm">R$ 6.500,00</span>
+                <span className="text-sm">
+                  R$ {financialData.income.toFixed(2)}
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-rose-500" />
                   <span className="text-sm">Despesas</span>
                 </div>
-                <span className="text-sm">R$ 2.900,00</span>
+                <span className="text-sm">
+                  R$ {financialData.expense.toFixed(2)}
+                </span>
               </div>
               <div className="flex items-center justify-between rounded-md bg-muted/50 p-2 dark:bg-muted/30">
                 <span className="font-medium">Saldo</span>
                 <span className="font-medium text-emerald-500">
-                  + R$ 3.600,00
+                  + R$ {financialData.balance.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -145,34 +219,128 @@ export function ReportsPage() {
               </div>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-              <div className="rounded-md bg-muted/50 p-3 text-center dark:bg-muted/30">
-                <p className="text-xs text-muted-foreground">Janeiro</p>
-                <p className="font-medium">R$ 2.800</p>
-              </div>
-              <div className="rounded-md bg-muted/50 p-3 text-center dark:bg-muted/30">
-                <p className="text-xs text-muted-foreground">Fevereiro</p>
-                <p className="font-medium">R$ 3.100</p>
-              </div>
-              <div className="rounded-md bg-muted/50 p-3 text-center dark:bg-muted/30">
-                <p className="text-xs text-muted-foreground">Março</p>
-                <p className="font-medium">R$ 2.950</p>
-              </div>
-              <div className="rounded-md bg-muted/50 p-3 text-center dark:bg-muted/30">
-                <p className="text-xs text-muted-foreground">Abril</p>
-                <p className="font-medium">R$ 3.200</p>
-              </div>
-              <div className="rounded-md bg-muted/50 p-3 text-center dark:bg-muted/30">
-                <p className="text-xs text-muted-foreground">Maio</p>
-                <p className="font-medium">R$ 2.750</p>
-              </div>
-              <div className="rounded-md bg-primary/10 p-3 text-center dark:bg-primary/20">
-                <p className="text-xs text-muted-foreground">Junho</p>
-                <p className="font-medium">R$ 2.900</p>
-              </div>
+              {monthlyExpenses.map((month, index) => (
+                <div
+                  key={month.month}
+                  className={`rounded-md ${
+                    index === monthlyExpenses.length - 1
+                      ? 'bg-primary/10 dark:bg-primary/20'
+                      : 'bg-muted/50 dark:bg-muted/30'
+                  } p-3 text-center`}
+                >
+                  <p className="text-xs text-muted-foreground">{month.month}</p>
+                  <p className="font-medium">R$ {month.value}</p>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
       </div>
+
+      {/* Modal para Filtros */}
+      <Dialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Filtros</DialogTitle>
+            <DialogDescription>
+              Selecione os filtros para personalizar seus relatórios.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="space-y-2">
+              <Label>Categoria</Label>
+              <Select
+                value={filters.category}
+                onValueChange={(value) =>
+                  setFilters({ ...filters, category: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione uma categoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas as categorias</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem
+                      key={category.id}
+                      value={category.name.toLowerCase()}
+                    >
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsFilterDialogOpen(false)}
+            >
+              Cancelar
+            </Button>
+            <Button onClick={applyFilters}>Aplicar Filtros</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal para Período */}
+      <Dialog
+        open={isDateRangeDialogOpen}
+        onOpenChange={setIsDateRangeDialogOpen}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Selecionar Período</DialogTitle>
+            <DialogDescription>
+              Escolha o período para visualizar seus relatórios.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="space-y-2">
+              <Label>Período</Label>
+              <Select
+                value={filters.period}
+                onValueChange={(value) =>
+                  setFilters({ ...filters, period: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione um período" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="week">Última semana</SelectItem>
+                  <SelectItem value="month">Último mês</SelectItem>
+                  <SelectItem value="quarter">Último trimestre</SelectItem>
+                  <SelectItem value="year">Último ano</SelectItem>
+                  <SelectItem value="custom">Personalizado</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {filters.period === 'custom' && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Data inicial</Label>
+                  <Input type="date" />
+                </div>
+                <div className="space-y-2">
+                  <Label>Data final</Label>
+                  <Input type="date" />
+                </div>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDateRangeDialogOpen(false)}
+            >
+              Cancelar
+            </Button>
+            <Button onClick={applyDateRange}>Aplicar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
