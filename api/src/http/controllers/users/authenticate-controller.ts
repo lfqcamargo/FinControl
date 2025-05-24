@@ -22,7 +22,7 @@ export async function authenticateController(
       password,
     });
 
-    const token = await reply.jwtSign(
+    const accessToken = await reply.jwtSign(
       {},
       {
         sign: {
@@ -43,18 +43,22 @@ export async function authenticateController(
 
     return reply
       .status(200)
-      .setCookie("refreshToken", refreshToken, {
-        path: "/",
-        secure: true,
-        sameSite: true,
-        httpOnly: true,
+      .setCookie("accessToken", accessToken, {
+        httpOnly: true, // JavaScript não pode acessar
+        secure: true, // HTTPS only
+        sameSite: "strict", // Proteção CSRF
+        maxAge: 15 * 60 * 1000, // 15 minutos
       })
-      .send({
-        token,
-      });
+      .setCookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
+      })
+      .send();
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
-      return reply.status(400).send({ message: err.message });
+      return reply.status(401).send({ message: err.message });
     }
 
     throw err;

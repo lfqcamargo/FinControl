@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -15,6 +16,11 @@ import {
 } from '@/components/ui/card'
 import { Eye, EyeOff, LockKeyhole, Mail, User } from 'lucide-react'
 import { useState } from 'react'
+
+import { createUser } from '@/api/create-user'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { ToastError } from '@/components/toast-error'
 
 const signUpForm = z
   .object({
@@ -54,26 +60,27 @@ export function SignUpPage() {
     resolver: zodResolver(signUpForm),
   })
 
-  // const { mutateAsync: registerUserFn } = useMutation({
-  //   mutationFn: registerUser,
-  // })
+  const { mutateAsync: createUserFn } = useMutation({
+    mutationFn: createUser,
+  })
 
   async function handleSignUp(data: SignUpForm) {
-    // try {
-    //   await registerUserFn({
-    //     name: data.name,
-    //     email: data.email,
-    //     password: data.password,
-    //   })
-    //   reset()
-    //   navigate(`/sign-in?email=${data.email}`)
-    //   toast.success('Cadastro realizado com sucesso!')
-    // } catch (error) {
-    //   toast.error('Erro ao realizar cadastro')
-    // } finally {
-    //   console.log(data)
-    // }
-    console.log(data)
+    try {
+      await createUserFn({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      })
+      reset()
+      navigate(`/sign-in?email=${data.email}`)
+      toast.success('Cadastro realizado com sucesso!')
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        ToastError({ error })
+      } else {
+        toast.error('Ocorreu um erro inesperado.')
+      }
+    }
   }
 
   let activeButton = false
@@ -105,9 +112,9 @@ export function SignUpPage() {
             Seja um parceiro e comece suas vendas!
           </CardDescription>
         </CardHeader>
-        <CardContent className="pb-8">
-          <form className="space-y-5" onSubmit={handleSubmit(handleSignUp)}>
-            <div className="space-y-3">
+        <CardContent className="pb-4">
+          <form onSubmit={handleSubmit(handleSignUp)}>
+            <div className="space-y-2">
               <Label
                 htmlFor="name"
                 className="text-base font-medium text-foreground"
@@ -124,14 +131,12 @@ export function SignUpPage() {
                   {...register('name')}
                 />
               </div>
-              {errors.name && (
-                <p className="mt-1 text-sm text-destructive">
-                  {errors.name.message}
-                </p>
-              )}
+              <p className="min-h-[16px] pl-1 mb-2 text-sm text-destructive">
+                {errors.name?.message}
+              </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <Label
                 htmlFor="email"
                 className="text-base font-medium text-foreground"
@@ -148,14 +153,12 @@ export function SignUpPage() {
                   {...register('email')}
                 />
               </div>
-              {errors.email && (
-                <p className="mt-1 text-sm text-destructive">
-                  {errors.email.message}
-                </p>
-              )}
+              <p className="min-h-[16px] pl-1 mb-2 text-sm text-destructive">
+                {errors.email?.message}
+              </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <Label
                 htmlFor="password"
                 className="text-base font-medium text-foreground"
@@ -172,6 +175,7 @@ export function SignUpPage() {
                   {...register('password')}
                 />
                 <Button
+                  tabIndex={-1}
                   type="button"
                   variant="ghost"
                   size="icon"
@@ -179,20 +183,18 @@ export function SignUpPage() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
+                    <EyeOff focusable={'false'} className="h-5 w-5" />
                   ) : (
-                    <Eye className="h-5 w-5" />
+                    <Eye focusable={'false'} className="h-5 w-5" />
                   )}
                 </Button>
               </div>
-              {errors.password && (
-                <p className="mt-1 text-sm text-destructive">
-                  {errors.password.message}
-                </p>
-              )}
+              <p className="min-h-[16px] pl-1 mb-2 text-sm text-destructive">
+                {errors.password?.message}
+              </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <Label
                 htmlFor="repeatPassword"
                 className="text-base font-medium text-foreground"
@@ -209,6 +211,7 @@ export function SignUpPage() {
                   {...register('repeatPassword')}
                 />
                 <Button
+                  tabIndex={-1}
                   type="button"
                   variant="ghost"
                   size="icon"
@@ -222,16 +225,14 @@ export function SignUpPage() {
                   )}
                 </Button>
               </div>
-              {errors.repeatPassword && (
-                <p className="mt-1 text-sm text-destructive">
-                  {errors.repeatPassword.message}
-                </p>
-              )}
+              <p className="min-h-[16px] pl-1 mb-2 text-sm text-destructive">
+                {errors.repeatPassword?.message}
+              </p>
             </div>
 
             <Button
               disabled={isSubmitting || !activeButton}
-              className="mt-2 h-12 w-full bg-primary text-base font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-md dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+              className="h-12 w-full bg-primary text-base font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-md dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
               type="submit"
             >
               {isSubmitting ? 'Processando...' : 'CADASTRAR'}
@@ -240,7 +241,7 @@ export function SignUpPage() {
         </CardContent>
       </Card>
 
-      <div className="mt-6 flex w-full max-w-[500px] items-center justify-center space-x-2">
+      <div className="mt-4 flex w-full max-w-[500px] items-center justify-center space-x-2">
         <span className="text-muted-foreground">Já tem uma conta?</span>
         <Button
           variant="ghost"

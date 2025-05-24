@@ -6,7 +6,7 @@ export async function refreshTokenController(
 ) {
   await request.jwtVerify({ onlyCookie: true });
 
-  const token = await reply.jwtSign(
+  const accessToken = await reply.jwtSign(
     {},
     {
       sign: {
@@ -26,14 +26,18 @@ export async function refreshTokenController(
   );
 
   return reply
-    .setCookie("refreshToken", refreshToken, {
-      path: "/",
-      secure: true,
-      sameSite: true,
-      httpOnly: true,
-    })
     .status(200)
-    .send({
-      token,
-    });
+    .setCookie("accessToken", accessToken, {
+      httpOnly: true, // JavaScript não pode acessar
+      secure: true, // HTTPS only
+      sameSite: "strict", // Proteção CSRF
+      maxAge: 15 * 60 * 1000, // 15 minutos
+    })
+    .setCookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
+    })
+    .send();
 }

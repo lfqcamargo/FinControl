@@ -6,13 +6,16 @@ import { router } from './routes'
 import { Toaster } from 'sonner'
 import { queryClient } from './lib/react-query'
 import './index.css'
+import { AuthProvider } from './contexts/auth-context'
 
 export function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="controle-financas">
       <Toaster richColors />
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>
   )

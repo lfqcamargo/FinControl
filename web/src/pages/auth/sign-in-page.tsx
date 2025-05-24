@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,13 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { Eye, EyeOff, LockKeyhole, Mail } from 'lucide-react'
 
+import { signIn } from '@/api/sign-in'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { ToastError } from '@/components/toast-error'
+import axios from 'axios'
+import { useAuth } from '@/contexts/auth-context'
+
 const signInForm = z.object({
   email: z.string().email(),
   password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
@@ -30,9 +37,14 @@ export function SignInPage() {
   const [searchParams] = useSearchParams()
   const [showPassword, setShowPassword] = useState(false)
 
+  const navigate = useNavigate()
+  const { checkAuth } = useAuth()
+
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { isSubmitting },
   } = useForm<SignInForm>({
     defaultValues: {
@@ -42,14 +54,51 @@ export function SignInPage() {
     },
   })
 
+  let activeButton = false
+  const emailWatch = watch('email')
+  const passwordWatch = watch('password')
+
+  if (!emailWatch || !passwordWatch) {
+    activeButton = false
+  } else {
+    activeButton = true
+  }
+
+  const { mutateAsync: signInFn } = useMutation({
+    mutationFn: signIn,
+  })
+
   async function handleSignIn(data: SignInForm) {
-    // try {
-    //   await authenticate({ email: data.email, password: data.password, rememberMe: data.rememberMe })
-    //   toast.success('Login realizado com sucesso!')
-    // } catch (error) {
-    //   toast.error('Credenciais inválidas.')
-    // }
-    console.log(data)
+    try {
+      await signInFn({ email: data.email, password: data.password })
+
+      // Mostra sucesso primeiro
+      toast.success('Login realizado com sucesso!')
+
+      // Limpa o formulário
+      reset()
+
+      // Aguarda um pouco antes de atualizar o contexto e navegar
+      setTimeout(async () => {
+        try {
+          // Atualiza o contexto de autenticação
+          await checkAuth()
+
+          // Navega para a página principal
+          navigate('/', { replace: true })
+        } catch (error) {
+          console.error('Erro ao verificar autenticação:', error)
+          // Mesmo com erro, tenta navegar (o usuário pode estar logado)
+          navigate('/', { replace: true })
+        }
+      }, 100)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        ToastError({ error })
+      } else {
+        toast.error('Ocorreu um erro inesperado.')
+      }
+    }
   }
 
   return (
@@ -66,7 +115,7 @@ export function SignInPage() {
             Acessar painel
           </CardTitle>
           <CardDescription className="text-base text-muted-foreground">
-            Acompanhe suas vendas pelo painel do parceiro!
+            Acompanhe suas finanças pelo painel do FinControl!
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-8">
@@ -145,7 +194,7 @@ export function SignInPage() {
             </div>
 
             <Button
-              disabled={isSubmitting}
+              disabled={isSubmitting || !activeButton}
               className="h-12 w-full bg-primary text-base font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-md dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
               type="submit"
             >

@@ -9,7 +9,7 @@ export async function userRoutes(app: FastifyInstance) {
   app.post("/users", createUserController);
   app.post("/sessions", authenticateController);
 
-  app.patch("/token/refresh", refreshTokenController);
+  app.patch("/auth/refresh", refreshTokenController);
 
-  app.get("/profile", { onRequest: [verifyJwt] }, getUserProfileController);
+  app.get("/auth/me", { onRequest: [verifyJwt] }, getUserProfileController);
 }
