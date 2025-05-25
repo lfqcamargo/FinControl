@@ -26,7 +26,7 @@ import axios from 'axios'
 import { useAuth } from '@/contexts/auth-context'
 
 const signInForm = z.object({
-  email: z.string().email(),
+  email: z.string().trim().email(),
   password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
   rememberMe: z.boolean().optional(),
 })
@@ -71,24 +71,13 @@ export function SignInPage() {
   async function handleSignIn(data: SignInForm) {
     try {
       await signInFn({ email: data.email, password: data.password })
-
-      // Mostra sucesso primeiro
       toast.success('Login realizado com sucesso!')
-
-      // Limpa o formulário
       reset()
-
-      // Aguarda um pouco antes de atualizar o contexto e navegar
       setTimeout(async () => {
         try {
-          // Atualiza o contexto de autenticação
           await checkAuth()
-
-          // Navega para a página principal
           navigate('/', { replace: true })
         } catch (error) {
-          console.error('Erro ao verificar autenticação:', error)
-          // Mesmo com erro, tenta navegar (o usuário pode estar logado)
           navigate('/', { replace: true })
         }
       }, 100)

@@ -125,7 +125,16 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   password: 'password',
-  phone: 'phone'
+  phone: 'phone',
+  profilePhoto: 'profilePhoto'
+};
+
+exports.Prisma.SettingsUserScalarFieldEnum = {
+  userId: 'userId',
+  notificationPhone: 'notificationPhone',
+  notificationEmail: 'notificationEmail',
+  notificationBudgets: 'notificationBudgets',
+  notificationReports: 'notificationReports'
 };
 
 exports.Prisma.SortOrder = {
@@ -145,7 +154,8 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  SettingsUser: 'SettingsUser'
 };
 
 /**

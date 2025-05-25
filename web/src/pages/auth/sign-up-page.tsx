@@ -26,21 +26,39 @@ const signUpForm = z
   .object({
     name: z
       .string()
-      .min(8, { message: 'Insira o nome completo' })
-      .max(50, { message: 'Use o primeiro e ultimo nome' }),
-    email: z.string().email({ message: 'Email inválido' }),
+      .trim()
+      .min(8, { message: 'O nome deve conter pelo menos 8 caracteres' })
+      .max(100, { message: 'O nome está muito longo. Use até 100 caracteres' })
+      .refine((val) => val.split(' ').length >= 2, {
+        message: 'Informe o nome completo (nome e sobrenome)',
+      }),
+    email: z.string().trim().email({ message: 'Informe um email válido' }),
     password: z
       .string()
-      .min(8, { message: 'A senha deve conter pelo menos 8 caracters' })
-      .max(20, { message: 'A senha deve não pode ter mais de 20 caracteres' }),
-    repeatPassword: z
-      .string()
-      .min(8, { message: 'A senha deve conter pelo menos 8 caracters' })
-      .max(20, { message: 'A senha deve não pode ter mais de 20 caracteres' }),
+      .min(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
+      .max(20, { message: 'A senha deve ter no máximo 20 caracteres' })
+      .regex(/[A-Z]/, {
+        message: 'A senha deve conter pelo menos uma letra maiúscula',
+      })
+      .regex(/[a-z]/, {
+        message: 'A senha deve conter pelo menos uma letra minúscula',
+      })
+      .regex(/[0-9]/, {
+        message: 'A senha deve conter pelo menos um número',
+      })
+      .regex(/[^A-Za-z0-9]/, {
+        message: 'A senha deve conter pelo menos um caractere especial',
+      }),
+    repeatPassword: z.string(),
   })
-  .refine((data) => data.password === data.repeatPassword, {
-    message: 'As senhas não são iguais',
-    path: ['repeatPassword'],
+  .superRefine((data, ctx) => {
+    if (data.password !== data.repeatPassword) {
+      ctx.addIssue({
+        path: ['repeatPassword'],
+        message: 'As senhas não coincidem',
+        code: z.ZodIssueCode.custom,
+      })
+    }
   })
 
 type SignUpForm = z.infer<typeof signUpForm>

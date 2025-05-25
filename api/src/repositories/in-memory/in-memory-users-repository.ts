@@ -10,7 +10,8 @@ export class InMemoryUsersRepository implements UsersRepositoryInterface {
       name: data.name,
       email: data.email,
       password: data.password,
-      phone: null,
+      phone: data.phone || null,
+      profilePhoto: data.profilePhoto || null,
     };
 
     this.items.push(user);
@@ -33,6 +34,26 @@ export class InMemoryUsersRepository implements UsersRepositoryInterface {
 
     if (!user) {
       return null;
+    }
+
+    return user;
+  }
+
+  async findByPhone(phone: string): Promise<User | null> {
+    const user = this.items.find((item) => item.phone === phone);
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  }
+
+  async save(user: User) {
+    const userIndex = this.items.findIndex((item) => item.id === user.id);
+
+    if (userIndex >= 0) {
+      this.items[userIndex] = user;
     }
 
     return user;

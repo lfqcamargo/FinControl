@@ -1,17 +1,14 @@
 import fastify from "fastify";
 import fastifyCookie from "@fastify/cookie";
+import fastifyMultipart from "@fastify/multipart";
+import fastifyJwt from "@fastify/jwt";
 import { userRoutes } from "@/http/routes/user-routes";
 import { ZodError } from "zod";
 import { env } from "@/env";
-import fastifyJwt from "@fastify/jwt";
+
 import cors from "@fastify/cors";
 
 export const app = fastify();
-
-app.register(cors, {
-  origin: true,
-  credentials: true,
-});
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
@@ -25,6 +22,14 @@ app.register(fastifyJwt, {
 });
 
 app.register(fastifyCookie);
+app.register(fastifyMultipart, {
+  attachFieldsToBody: false,
+});
+app.register(cors, {
+  origin: true,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+});
 
 app.register(userRoutes);
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { Bell, LogOut, Settings, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -10,8 +12,99 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ModeToggle } from '@/components/ui/theme/theme-toggle'
+import { useAuth } from '@/contexts/auth-context'
+import { useEffect, useState } from 'react'
 
 export function DashboardHeader() {
+  const { user, signOut } = useAuth()
+  const [userImageUrl, setUserImageUrl] = useState<string | null>(null)
+
+  // Converter imagem de bytes para URL
+  useEffect(() => {
+    const convertByteArrayToImageUrl = (byteData: any) => {
+      try {
+        let byteArray: number[]
+
+        // Se for um Buffer com propriedade data
+        if (byteData && typeof byteData === 'object' && byteData.data) {
+          byteArray = Array.isArray(byteData.data)
+            ? byteData.data
+            : Object.values(byteData.data)
+        }
+        // Se for um objeto com índices numéricos
+        else if (typeof byteData === 'object' && !Array.isArray(byteData)) {
+          byteArray = Object.values(byteData) as number[]
+        }
+        // Se já for um array
+        else if (Array.isArray(byteData)) {
+          byteArray = byteData
+        }
+        // Se não conseguir converter, retorna null
+        else {
+          return null
+        }
+
+        const uint8Array = new Uint8Array(byteArray)
+        const blob = new Blob([uint8Array], { type: 'image/png' })
+        const url = URL.createObjectURL(blob)
+        return url
+      } catch (error) {
+        return null
+      }
+    }
+
+    // Limpar URL anterior se existir
+    if (userImageUrl && userImageUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(userImageUrl)
+    }
+
+    if (user?.profilePhoto) {
+      // Se for string (URL ou base64)
+      if (typeof user.profilePhoto === 'string') {
+        setUserImageUrl(user.profilePhoto)
+      }
+      // Se for objeto/array de bytes
+      else {
+        const imageUrl = convertByteArrayToImageUrl(user.profilePhoto)
+        setUserImageUrl(imageUrl)
+      }
+    } else {
+      setUserImageUrl(null)
+    }
+
+    // Cleanup function
+    return () => {
+      if (userImageUrl && userImageUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(userImageUrl)
+      }
+    }
+  }, [user?.name, user?.profilePhoto]) // Dependências específicas para reagir às mudanças
+
+  const handleSignOut = async () => {
+    // Logout é async novamente para chamar o backend
+    await signOut()
+  }
+
+  // Função para gerar iniciais do nome
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((word) => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
+
+  function getFirstAndLastName(fullName: string) {
+    if (!fullName) return 'Usuário'
+
+    const parts = fullName.trim().split(/\s+/)
+
+    if (parts.length === 1) return parts[0]
+
+    return parts[0] + ' ' + parts[parts.length - 1]
+  }
+
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border/40 bg-background/95 px-6 backdrop-blur-sm dark:border-border/20 dark:bg-card/95">
       <div className="flex items-center gap-3">
@@ -39,28 +132,6 @@ export function DashboardHeader() {
         </div>
       </div>
 
-      <div className="flex items-center md:hidden">
-        <Button variant="ghost" size="icon" className="mr-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-6 w-6"
-          >
-            <line x1="4" x2="20" y1="12" y2="12" />
-            <line x1="4" x2="20" y1="6" y2="6" />
-            <line x1="4" x2="20" y1="18" y2="18" />
-          </svg>
-          <span className="sr-only">Toggle Menu</span>
-        </Button>
-      </div>
-
       <div className="flex flex-1 items-center justify-end gap-3">
         <ModeToggle />
 
@@ -79,13 +150,15 @@ export function DashboardHeader() {
             >
               <Avatar className="h-8 w-8 border border-border/50">
                 <AvatarImage
-                  src="/placeholder.svg?height=32&width=32"
-                  alt="Lucas Fernando"
+                  src={userImageUrl || '/placeholder.svg?height=32&width=32'}
+                  alt={user?.name || 'Usuário'}
                 />
-                <AvatarFallback className="text-xs">LF</AvatarFallback>
+                <AvatarFallback className="text-xs">
+                  {user?.name ? getInitials(user.name) : 'U'}
+                </AvatarFallback>
               </Avatar>
               <span className="hidden text-sm font-medium md:inline-block">
-                Lucas Camargo
+                {user?.name ? getFirstAndLastName(user.name) : 'Usuário'}
               </span>
             </Button>
           </DropdownMenuTrigger>
@@ -93,10 +166,10 @@ export function DashboardHeader() {
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">
-                  Lucas Camargo
+                  {user?.name ? getFirstAndLastName(user.name) : 'Usuário'}
                 </p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  lfqcamargo@gmail.com
+                  {user?.email}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -110,7 +183,10 @@ export function DashboardHeader() {
               <span>Configurações</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive focus:text-destructive">
+            <DropdownMenuItem
+              className="text-destructive focus:text-destructive cursor-pointer"
+              onClick={handleSignOut}
+            >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Sair</span>
             </DropdownMenuItem>

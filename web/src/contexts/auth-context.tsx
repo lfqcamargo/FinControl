@@ -4,11 +4,14 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { api } from '@/lib/axios'
 import axios from 'axios'
+import { toast } from 'sonner'
 
 interface User {
   id: string
   email: string
   name: string
+  phone?: string | null
+  profilePhoto?: any | null // pode ser string, array de bytes, ou objeto com índices numéricos
 }
 
 interface AuthContextType {
@@ -17,6 +20,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   signOut: () => Promise<void>
   checkAuth: () => Promise<void>
+  updateUser: (userData: Partial<User>) => void
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -48,14 +52,40 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
+    console.log('FAZENDO LOGOUT...')
+
     try {
+      // Chama o backend para invalidar o token
       await api.post('/auth/logout')
+      console.log('LOGOUT NO BACKEND REALIZADO')
     } catch (error) {
-      console.error('Erro ao fazer logout:', error)
-    } finally {
-      setUser(null)
-      // Força reload para limpar qualquer estado residual
-      window.location.href = '/sign-in'
+      console.error('Erro no logout do backend:', error)
+      // Mesmo com erro, continua o logout local
+    }
+
+    // Limpa o estado local
+    setUser(null)
+    localStorage.removeItem('user')
+    sessionStorage.clear()
+
+    // Mostra sucesso
+    toast.success('Logout realizado com sucesso!')
+
+    console.log('REDIRECIONANDO...')
+
+    // Redireciona para login
+    window.location.href = '/sign-in'
+  }
+
+  function updateUser(userData: Partial<User>) {
+    if (user) {
+      const updatedUser = {
+        ...user,
+        ...userData,
+      }
+
+      setUser(updatedUser)
+      localStorage.setItem('user', JSON.stringify(updatedUser))
     }
   }
 
@@ -71,6 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isAuthenticated,
         signOut,
         checkAuth,
+        updateUser,
       }}
     >
       {children}

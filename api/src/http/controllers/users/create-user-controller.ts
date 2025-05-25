@@ -9,9 +9,23 @@ export async function createUserController(
   reply: FastifyReply
 ) {
   const createUserBodySchema = z.object({
-    email: z.string().email(),
-    name: z.string(),
-    password: z.string().min(6),
+    name: z
+      .string()
+      .trim()
+      .min(8)
+      .max(100)
+      .refine((val) => val.split(" ").length >= 2, {
+        message: "Informe o nome completo (nome e sobrenome)",
+      }),
+    email: z.string().trim().email(),
+    password: z
+      .string()
+      .min(8)
+      .max(20)
+      .regex(/[A-Z]/)
+      .regex(/[a-z]/)
+      .regex(/[0-9]/)
+      .regex(/[^A-Za-z0-9]/),
   });
 
   const { email, name, password } = createUserBodySchema.parse(request.body);

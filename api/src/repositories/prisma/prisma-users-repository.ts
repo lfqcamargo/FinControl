@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { UsersRepositoryInterface } from "../interfaces/users-repository-interface";
-import { Prisma } from "generated/prisma";
+import { Prisma, User } from "generated/prisma";
 
 export class PrismaUsersRepository implements UsersRepositoryInterface {
   async create(data: Prisma.UserCreateInput) {
@@ -26,6 +26,31 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
       where: {
         id,
       },
+    });
+
+    return user;
+  }
+
+  async findByPhone(phone: string) {
+    const user = await prisma.user.findUnique({
+      where: {
+        phone,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  }
+
+  async save(data: User) {
+    const user = await prisma.user.update({
+      where: {
+        id: data.id,
+      },
+      data,
     });
 
     return user;

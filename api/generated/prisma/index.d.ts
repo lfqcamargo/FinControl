@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model SettingsUser
+ * 
+ */
+export type SettingsUser = $Result.DefaultSelection<Prisma.$SettingsUserPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -153,6 +158,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.settingsUser`: Exposes CRUD operations for the **SettingsUser** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SettingsUsers
+    * const settingsUsers = await prisma.settingsUser.findMany()
+    * ```
+    */
+  get settingsUser(): Prisma.SettingsUserDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +608,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User'
+    User: 'User',
+    SettingsUser: 'SettingsUser'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,7 +628,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user"
+      modelProps: "user" | "settingsUser"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -687,6 +703,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      SettingsUser: {
+        payload: Prisma.$SettingsUserPayload<ExtArgs>
+        fields: Prisma.SettingsUserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SettingsUserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SettingsUserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>
+          }
+          findFirst: {
+            args: Prisma.SettingsUserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SettingsUserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>
+          }
+          findMany: {
+            args: Prisma.SettingsUserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>[]
+          }
+          create: {
+            args: Prisma.SettingsUserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>
+          }
+          createMany: {
+            args: Prisma.SettingsUserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SettingsUserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>[]
+          }
+          delete: {
+            args: Prisma.SettingsUserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>
+          }
+          update: {
+            args: Prisma.SettingsUserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>
+          }
+          deleteMany: {
+            args: Prisma.SettingsUserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SettingsUserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SettingsUserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>[]
+          }
+          upsert: {
+            args: Prisma.SettingsUserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsUserPayload>
+          }
+          aggregate: {
+            args: Prisma.SettingsUserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSettingsUser>
+          }
+          groupBy: {
+            args: Prisma.SettingsUserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SettingsUserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SettingsUserCountArgs<ExtArgs>
+            result: $Utils.Optional<SettingsUserCountAggregateOutputType> | number
           }
         }
       }
@@ -775,6 +865,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    settingsUser?: SettingsUserOmit
   }
 
   /* Types for Logging */
@@ -864,6 +955,36 @@ export namespace Prisma {
    */
 
 
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    profiles: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profiles?: boolean | UserCountOutputTypeCountProfilesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SettingsUserWhereInput
+  }
+
 
   /**
    * Models
@@ -885,6 +1006,7 @@ export namespace Prisma {
     name: string | null
     password: string | null
     phone: string | null
+    profilePhoto: Uint8Array | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -893,6 +1015,7 @@ export namespace Prisma {
     name: string | null
     password: string | null
     phone: string | null
+    profilePhoto: Uint8Array | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -901,6 +1024,7 @@ export namespace Prisma {
     name: number
     password: number
     phone: number
+    profilePhoto: number
     _all: number
   }
 
@@ -911,6 +1035,7 @@ export namespace Prisma {
     name?: true
     password?: true
     phone?: true
+    profilePhoto?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -919,6 +1044,7 @@ export namespace Prisma {
     name?: true
     password?: true
     phone?: true
+    profilePhoto?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -927,6 +1053,7 @@ export namespace Prisma {
     name?: true
     password?: true
     phone?: true
+    profilePhoto?: true
     _all?: true
   }
 
@@ -1008,6 +1135,7 @@ export namespace Prisma {
     name: string
     password: string
     phone: string | null
+    profilePhoto: Uint8Array | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1033,6 +1161,9 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     phone?: boolean
+    profilePhoto?: boolean
+    profiles?: boolean | User$profilesArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1041,6 +1172,7 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     phone?: boolean
+    profilePhoto?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1049,6 +1181,7 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     phone?: boolean
+    profilePhoto?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1057,19 +1190,29 @@ export namespace Prisma {
     name?: boolean
     password?: boolean
     phone?: boolean
+    profilePhoto?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "phone", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "phone" | "profilePhoto", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profiles?: boolean | User$profilesArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
-    objects: {}
+    objects: {
+      profiles: Prisma.$SettingsUserPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string
       name: string
       password: string
       phone: string | null
+      profilePhoto: Uint8Array | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1464,6 +1607,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    profiles<T extends User$profilesArgs<ExtArgs> = {}>(args?: Subset<T, User$profilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1498,6 +1642,7 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
+    readonly profilePhoto: FieldRef<"User", 'Bytes'>
   }
     
 
@@ -1514,6 +1659,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -1533,6 +1682,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1550,6 +1703,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -1599,6 +1756,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -1647,6 +1808,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which Users to fetch.
      */
     where?: UserWhereInput
@@ -1689,6 +1854,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to create a User.
      */
@@ -1737,6 +1906,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to update a User.
      */
@@ -1804,6 +1977,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -1830,6 +2007,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -1850,6 +2031,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.profiles
+   */
+  export type User$profilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    where?: SettingsUserWhereInput
+    orderBy?: SettingsUserOrderByWithRelationInput | SettingsUserOrderByWithRelationInput[]
+    cursor?: SettingsUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SettingsUserScalarFieldEnum | SettingsUserScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1861,6 +2066,1068 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SettingsUser
+   */
+
+  export type AggregateSettingsUser = {
+    _count: SettingsUserCountAggregateOutputType | null
+    _min: SettingsUserMinAggregateOutputType | null
+    _max: SettingsUserMaxAggregateOutputType | null
+  }
+
+  export type SettingsUserMinAggregateOutputType = {
+    userId: string | null
+    notificationPhone: boolean | null
+    notificationEmail: boolean | null
+    notificationBudgets: boolean | null
+    notificationReports: boolean | null
+  }
+
+  export type SettingsUserMaxAggregateOutputType = {
+    userId: string | null
+    notificationPhone: boolean | null
+    notificationEmail: boolean | null
+    notificationBudgets: boolean | null
+    notificationReports: boolean | null
+  }
+
+  export type SettingsUserCountAggregateOutputType = {
+    userId: number
+    notificationPhone: number
+    notificationEmail: number
+    notificationBudgets: number
+    notificationReports: number
+    _all: number
+  }
+
+
+  export type SettingsUserMinAggregateInputType = {
+    userId?: true
+    notificationPhone?: true
+    notificationEmail?: true
+    notificationBudgets?: true
+    notificationReports?: true
+  }
+
+  export type SettingsUserMaxAggregateInputType = {
+    userId?: true
+    notificationPhone?: true
+    notificationEmail?: true
+    notificationBudgets?: true
+    notificationReports?: true
+  }
+
+  export type SettingsUserCountAggregateInputType = {
+    userId?: true
+    notificationPhone?: true
+    notificationEmail?: true
+    notificationBudgets?: true
+    notificationReports?: true
+    _all?: true
+  }
+
+  export type SettingsUserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SettingsUser to aggregate.
+     */
+    where?: SettingsUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SettingsUsers to fetch.
+     */
+    orderBy?: SettingsUserOrderByWithRelationInput | SettingsUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SettingsUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SettingsUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SettingsUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SettingsUsers
+    **/
+    _count?: true | SettingsUserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SettingsUserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SettingsUserMaxAggregateInputType
+  }
+
+  export type GetSettingsUserAggregateType<T extends SettingsUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateSettingsUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSettingsUser[P]>
+      : GetScalarType<T[P], AggregateSettingsUser[P]>
+  }
+
+
+
+
+  export type SettingsUserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SettingsUserWhereInput
+    orderBy?: SettingsUserOrderByWithAggregationInput | SettingsUserOrderByWithAggregationInput[]
+    by: SettingsUserScalarFieldEnum[] | SettingsUserScalarFieldEnum
+    having?: SettingsUserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SettingsUserCountAggregateInputType | true
+    _min?: SettingsUserMinAggregateInputType
+    _max?: SettingsUserMaxAggregateInputType
+  }
+
+  export type SettingsUserGroupByOutputType = {
+    userId: string
+    notificationPhone: boolean
+    notificationEmail: boolean
+    notificationBudgets: boolean
+    notificationReports: boolean
+    _count: SettingsUserCountAggregateOutputType | null
+    _min: SettingsUserMinAggregateOutputType | null
+    _max: SettingsUserMaxAggregateOutputType | null
+  }
+
+  type GetSettingsUserGroupByPayload<T extends SettingsUserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SettingsUserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SettingsUserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SettingsUserGroupByOutputType[P]>
+            : GetScalarType<T[P], SettingsUserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SettingsUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["settingsUser"]>
+
+  export type SettingsUserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["settingsUser"]>
+
+  export type SettingsUserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["settingsUser"]>
+
+  export type SettingsUserSelectScalar = {
+    userId?: boolean
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+  }
+
+  export type SettingsUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "notificationPhone" | "notificationEmail" | "notificationBudgets" | "notificationReports", ExtArgs["result"]["settingsUser"]>
+  export type SettingsUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SettingsUserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SettingsUserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SettingsUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SettingsUser"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userId: string
+      notificationPhone: boolean
+      notificationEmail: boolean
+      notificationBudgets: boolean
+      notificationReports: boolean
+    }, ExtArgs["result"]["settingsUser"]>
+    composites: {}
+  }
+
+  type SettingsUserGetPayload<S extends boolean | null | undefined | SettingsUserDefaultArgs> = $Result.GetResult<Prisma.$SettingsUserPayload, S>
+
+  type SettingsUserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SettingsUserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SettingsUserCountAggregateInputType | true
+    }
+
+  export interface SettingsUserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SettingsUser'], meta: { name: 'SettingsUser' } }
+    /**
+     * Find zero or one SettingsUser that matches the filter.
+     * @param {SettingsUserFindUniqueArgs} args - Arguments to find a SettingsUser
+     * @example
+     * // Get one SettingsUser
+     * const settingsUser = await prisma.settingsUser.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SettingsUserFindUniqueArgs>(args: SelectSubset<T, SettingsUserFindUniqueArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SettingsUser that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SettingsUserFindUniqueOrThrowArgs} args - Arguments to find a SettingsUser
+     * @example
+     * // Get one SettingsUser
+     * const settingsUser = await prisma.settingsUser.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SettingsUserFindUniqueOrThrowArgs>(args: SelectSubset<T, SettingsUserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SettingsUser that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUserFindFirstArgs} args - Arguments to find a SettingsUser
+     * @example
+     * // Get one SettingsUser
+     * const settingsUser = await prisma.settingsUser.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SettingsUserFindFirstArgs>(args?: SelectSubset<T, SettingsUserFindFirstArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SettingsUser that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUserFindFirstOrThrowArgs} args - Arguments to find a SettingsUser
+     * @example
+     * // Get one SettingsUser
+     * const settingsUser = await prisma.settingsUser.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SettingsUserFindFirstOrThrowArgs>(args?: SelectSubset<T, SettingsUserFindFirstOrThrowArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SettingsUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SettingsUsers
+     * const settingsUsers = await prisma.settingsUser.findMany()
+     * 
+     * // Get first 10 SettingsUsers
+     * const settingsUsers = await prisma.settingsUser.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const settingsUserWithUserIdOnly = await prisma.settingsUser.findMany({ select: { userId: true } })
+     * 
+     */
+    findMany<T extends SettingsUserFindManyArgs>(args?: SelectSubset<T, SettingsUserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SettingsUser.
+     * @param {SettingsUserCreateArgs} args - Arguments to create a SettingsUser.
+     * @example
+     * // Create one SettingsUser
+     * const SettingsUser = await prisma.settingsUser.create({
+     *   data: {
+     *     // ... data to create a SettingsUser
+     *   }
+     * })
+     * 
+     */
+    create<T extends SettingsUserCreateArgs>(args: SelectSubset<T, SettingsUserCreateArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SettingsUsers.
+     * @param {SettingsUserCreateManyArgs} args - Arguments to create many SettingsUsers.
+     * @example
+     * // Create many SettingsUsers
+     * const settingsUser = await prisma.settingsUser.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SettingsUserCreateManyArgs>(args?: SelectSubset<T, SettingsUserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SettingsUsers and returns the data saved in the database.
+     * @param {SettingsUserCreateManyAndReturnArgs} args - Arguments to create many SettingsUsers.
+     * @example
+     * // Create many SettingsUsers
+     * const settingsUser = await prisma.settingsUser.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SettingsUsers and only return the `userId`
+     * const settingsUserWithUserIdOnly = await prisma.settingsUser.createManyAndReturn({
+     *   select: { userId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SettingsUserCreateManyAndReturnArgs>(args?: SelectSubset<T, SettingsUserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SettingsUser.
+     * @param {SettingsUserDeleteArgs} args - Arguments to delete one SettingsUser.
+     * @example
+     * // Delete one SettingsUser
+     * const SettingsUser = await prisma.settingsUser.delete({
+     *   where: {
+     *     // ... filter to delete one SettingsUser
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SettingsUserDeleteArgs>(args: SelectSubset<T, SettingsUserDeleteArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SettingsUser.
+     * @param {SettingsUserUpdateArgs} args - Arguments to update one SettingsUser.
+     * @example
+     * // Update one SettingsUser
+     * const settingsUser = await prisma.settingsUser.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SettingsUserUpdateArgs>(args: SelectSubset<T, SettingsUserUpdateArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SettingsUsers.
+     * @param {SettingsUserDeleteManyArgs} args - Arguments to filter SettingsUsers to delete.
+     * @example
+     * // Delete a few SettingsUsers
+     * const { count } = await prisma.settingsUser.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SettingsUserDeleteManyArgs>(args?: SelectSubset<T, SettingsUserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SettingsUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SettingsUsers
+     * const settingsUser = await prisma.settingsUser.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SettingsUserUpdateManyArgs>(args: SelectSubset<T, SettingsUserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SettingsUsers and returns the data updated in the database.
+     * @param {SettingsUserUpdateManyAndReturnArgs} args - Arguments to update many SettingsUsers.
+     * @example
+     * // Update many SettingsUsers
+     * const settingsUser = await prisma.settingsUser.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SettingsUsers and only return the `userId`
+     * const settingsUserWithUserIdOnly = await prisma.settingsUser.updateManyAndReturn({
+     *   select: { userId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SettingsUserUpdateManyAndReturnArgs>(args: SelectSubset<T, SettingsUserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SettingsUser.
+     * @param {SettingsUserUpsertArgs} args - Arguments to update or create a SettingsUser.
+     * @example
+     * // Update or create a SettingsUser
+     * const settingsUser = await prisma.settingsUser.upsert({
+     *   create: {
+     *     // ... data to create a SettingsUser
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SettingsUser we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SettingsUserUpsertArgs>(args: SelectSubset<T, SettingsUserUpsertArgs<ExtArgs>>): Prisma__SettingsUserClient<$Result.GetResult<Prisma.$SettingsUserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SettingsUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUserCountArgs} args - Arguments to filter SettingsUsers to count.
+     * @example
+     * // Count the number of SettingsUsers
+     * const count = await prisma.settingsUser.count({
+     *   where: {
+     *     // ... the filter for the SettingsUsers we want to count
+     *   }
+     * })
+    **/
+    count<T extends SettingsUserCountArgs>(
+      args?: Subset<T, SettingsUserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SettingsUserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SettingsUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SettingsUserAggregateArgs>(args: Subset<T, SettingsUserAggregateArgs>): Prisma.PrismaPromise<GetSettingsUserAggregateType<T>>
+
+    /**
+     * Group by SettingsUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SettingsUserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SettingsUserGroupByArgs['orderBy'] }
+        : { orderBy?: SettingsUserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SettingsUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSettingsUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SettingsUser model
+   */
+  readonly fields: SettingsUserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SettingsUser.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SettingsUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SettingsUser model
+   */
+  interface SettingsUserFieldRefs {
+    readonly userId: FieldRef<"SettingsUser", 'String'>
+    readonly notificationPhone: FieldRef<"SettingsUser", 'Boolean'>
+    readonly notificationEmail: FieldRef<"SettingsUser", 'Boolean'>
+    readonly notificationBudgets: FieldRef<"SettingsUser", 'Boolean'>
+    readonly notificationReports: FieldRef<"SettingsUser", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SettingsUser findUnique
+   */
+  export type SettingsUserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SettingsUser to fetch.
+     */
+    where: SettingsUserWhereUniqueInput
+  }
+
+  /**
+   * SettingsUser findUniqueOrThrow
+   */
+  export type SettingsUserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SettingsUser to fetch.
+     */
+    where: SettingsUserWhereUniqueInput
+  }
+
+  /**
+   * SettingsUser findFirst
+   */
+  export type SettingsUserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SettingsUser to fetch.
+     */
+    where?: SettingsUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SettingsUsers to fetch.
+     */
+    orderBy?: SettingsUserOrderByWithRelationInput | SettingsUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SettingsUsers.
+     */
+    cursor?: SettingsUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SettingsUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SettingsUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SettingsUsers.
+     */
+    distinct?: SettingsUserScalarFieldEnum | SettingsUserScalarFieldEnum[]
+  }
+
+  /**
+   * SettingsUser findFirstOrThrow
+   */
+  export type SettingsUserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SettingsUser to fetch.
+     */
+    where?: SettingsUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SettingsUsers to fetch.
+     */
+    orderBy?: SettingsUserOrderByWithRelationInput | SettingsUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SettingsUsers.
+     */
+    cursor?: SettingsUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SettingsUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SettingsUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SettingsUsers.
+     */
+    distinct?: SettingsUserScalarFieldEnum | SettingsUserScalarFieldEnum[]
+  }
+
+  /**
+   * SettingsUser findMany
+   */
+  export type SettingsUserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * Filter, which SettingsUsers to fetch.
+     */
+    where?: SettingsUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SettingsUsers to fetch.
+     */
+    orderBy?: SettingsUserOrderByWithRelationInput | SettingsUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SettingsUsers.
+     */
+    cursor?: SettingsUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SettingsUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SettingsUsers.
+     */
+    skip?: number
+    distinct?: SettingsUserScalarFieldEnum | SettingsUserScalarFieldEnum[]
+  }
+
+  /**
+   * SettingsUser create
+   */
+  export type SettingsUserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SettingsUser.
+     */
+    data: XOR<SettingsUserCreateInput, SettingsUserUncheckedCreateInput>
+  }
+
+  /**
+   * SettingsUser createMany
+   */
+  export type SettingsUserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SettingsUsers.
+     */
+    data: SettingsUserCreateManyInput | SettingsUserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SettingsUser createManyAndReturn
+   */
+  export type SettingsUserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * The data used to create many SettingsUsers.
+     */
+    data: SettingsUserCreateManyInput | SettingsUserCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SettingsUser update
+   */
+  export type SettingsUserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SettingsUser.
+     */
+    data: XOR<SettingsUserUpdateInput, SettingsUserUncheckedUpdateInput>
+    /**
+     * Choose, which SettingsUser to update.
+     */
+    where: SettingsUserWhereUniqueInput
+  }
+
+  /**
+   * SettingsUser updateMany
+   */
+  export type SettingsUserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SettingsUsers.
+     */
+    data: XOR<SettingsUserUpdateManyMutationInput, SettingsUserUncheckedUpdateManyInput>
+    /**
+     * Filter which SettingsUsers to update
+     */
+    where?: SettingsUserWhereInput
+    /**
+     * Limit how many SettingsUsers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SettingsUser updateManyAndReturn
+   */
+  export type SettingsUserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * The data used to update SettingsUsers.
+     */
+    data: XOR<SettingsUserUpdateManyMutationInput, SettingsUserUncheckedUpdateManyInput>
+    /**
+     * Filter which SettingsUsers to update
+     */
+    where?: SettingsUserWhereInput
+    /**
+     * Limit how many SettingsUsers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SettingsUser upsert
+   */
+  export type SettingsUserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SettingsUser to update in case it exists.
+     */
+    where: SettingsUserWhereUniqueInput
+    /**
+     * In case the SettingsUser found by the `where` argument doesn't exist, create a new SettingsUser with this data.
+     */
+    create: XOR<SettingsUserCreateInput, SettingsUserUncheckedCreateInput>
+    /**
+     * In case the SettingsUser was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SettingsUserUpdateInput, SettingsUserUncheckedUpdateInput>
+  }
+
+  /**
+   * SettingsUser delete
+   */
+  export type SettingsUserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
+    /**
+     * Filter which SettingsUser to delete.
+     */
+    where: SettingsUserWhereUniqueInput
+  }
+
+  /**
+   * SettingsUser deleteMany
+   */
+  export type SettingsUserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SettingsUsers to delete
+     */
+    where?: SettingsUserWhereInput
+    /**
+     * Limit how many SettingsUsers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SettingsUser without action
+   */
+  export type SettingsUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SettingsUser
+     */
+    select?: SettingsUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SettingsUser
+     */
+    omit?: SettingsUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SettingsUserInclude<ExtArgs> | null
   }
 
 
@@ -1883,10 +3150,22 @@ export namespace Prisma {
     email: 'email',
     name: 'name',
     password: 'password',
-    phone: 'phone'
+    phone: 'phone',
+    profilePhoto: 'profilePhoto'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const SettingsUserScalarFieldEnum: {
+    userId: 'userId',
+    notificationPhone: 'notificationPhone',
+    notificationEmail: 'notificationEmail',
+    notificationBudgets: 'notificationBudgets',
+    notificationReports: 'notificationReports'
+  };
+
+  export type SettingsUserScalarFieldEnum = (typeof SettingsUserScalarFieldEnum)[keyof typeof SettingsUserScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -1933,6 +3212,27 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes[]'
+   */
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1958,6 +3258,8 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     phone?: StringNullableFilter<"User"> | string | null
+    profilePhoto?: BytesNullableFilter<"User"> | Uint8Array | null
+    profiles?: SettingsUserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -1966,6 +3268,8 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     phone?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
+    profiles?: SettingsUserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -1977,6 +3281,8 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    profilePhoto?: BytesNullableFilter<"User"> | Uint8Array | null
+    profiles?: SettingsUserListRelationFilter
   }, "id" | "email" | "phone">
 
   export type UserOrderByWithAggregationInput = {
@@ -1985,6 +3291,7 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     phone?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -1999,6 +3306,62 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    profilePhoto?: BytesNullableWithAggregatesFilter<"User"> | Uint8Array | null
+  }
+
+  export type SettingsUserWhereInput = {
+    AND?: SettingsUserWhereInput | SettingsUserWhereInput[]
+    OR?: SettingsUserWhereInput[]
+    NOT?: SettingsUserWhereInput | SettingsUserWhereInput[]
+    userId?: StringFilter<"SettingsUser"> | string
+    notificationPhone?: BoolFilter<"SettingsUser"> | boolean
+    notificationEmail?: BoolFilter<"SettingsUser"> | boolean
+    notificationBudgets?: BoolFilter<"SettingsUser"> | boolean
+    notificationReports?: BoolFilter<"SettingsUser"> | boolean
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SettingsUserOrderByWithRelationInput = {
+    userId?: SortOrder
+    notificationPhone?: SortOrder
+    notificationEmail?: SortOrder
+    notificationBudgets?: SortOrder
+    notificationReports?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SettingsUserWhereUniqueInput = Prisma.AtLeast<{
+    userId?: string
+    AND?: SettingsUserWhereInput | SettingsUserWhereInput[]
+    OR?: SettingsUserWhereInput[]
+    NOT?: SettingsUserWhereInput | SettingsUserWhereInput[]
+    notificationPhone?: BoolFilter<"SettingsUser"> | boolean
+    notificationEmail?: BoolFilter<"SettingsUser"> | boolean
+    notificationBudgets?: BoolFilter<"SettingsUser"> | boolean
+    notificationReports?: BoolFilter<"SettingsUser"> | boolean
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "userId">
+
+  export type SettingsUserOrderByWithAggregationInput = {
+    userId?: SortOrder
+    notificationPhone?: SortOrder
+    notificationEmail?: SortOrder
+    notificationBudgets?: SortOrder
+    notificationReports?: SortOrder
+    _count?: SettingsUserCountOrderByAggregateInput
+    _max?: SettingsUserMaxOrderByAggregateInput
+    _min?: SettingsUserMinOrderByAggregateInput
+  }
+
+  export type SettingsUserScalarWhereWithAggregatesInput = {
+    AND?: SettingsUserScalarWhereWithAggregatesInput | SettingsUserScalarWhereWithAggregatesInput[]
+    OR?: SettingsUserScalarWhereWithAggregatesInput[]
+    NOT?: SettingsUserScalarWhereWithAggregatesInput | SettingsUserScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"SettingsUser"> | string
+    notificationPhone?: BoolWithAggregatesFilter<"SettingsUser"> | boolean
+    notificationEmail?: BoolWithAggregatesFilter<"SettingsUser"> | boolean
+    notificationBudgets?: BoolWithAggregatesFilter<"SettingsUser"> | boolean
+    notificationReports?: BoolWithAggregatesFilter<"SettingsUser"> | boolean
   }
 
   export type UserCreateInput = {
@@ -2007,6 +3370,8 @@ export namespace Prisma {
     name: string
     password: string
     phone?: string | null
+    profilePhoto?: Uint8Array | null
+    profiles?: SettingsUserCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -2015,6 +3380,8 @@ export namespace Prisma {
     name: string
     password: string
     phone?: string | null
+    profilePhoto?: Uint8Array | null
+    profiles?: SettingsUserUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -2023,6 +3390,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profiles?: SettingsUserUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2031,6 +3400,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profiles?: SettingsUserUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -2039,6 +3410,7 @@ export namespace Prisma {
     name: string
     password: string
     phone?: string | null
+    profilePhoto?: Uint8Array | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -2047,6 +3419,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -2055,6 +3428,62 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+  }
+
+  export type SettingsUserCreateInput = {
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+    user: UserCreateNestedOneWithoutProfilesInput
+  }
+
+  export type SettingsUserUncheckedCreateInput = {
+    userId: string
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+  }
+
+  export type SettingsUserUpdateInput = {
+    notificationPhone?: BoolFieldUpdateOperationsInput | boolean
+    notificationEmail?: BoolFieldUpdateOperationsInput | boolean
+    notificationBudgets?: BoolFieldUpdateOperationsInput | boolean
+    notificationReports?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutProfilesNestedInput
+  }
+
+  export type SettingsUserUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    notificationPhone?: BoolFieldUpdateOperationsInput | boolean
+    notificationEmail?: BoolFieldUpdateOperationsInput | boolean
+    notificationBudgets?: BoolFieldUpdateOperationsInput | boolean
+    notificationReports?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SettingsUserCreateManyInput = {
+    userId: string
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+  }
+
+  export type SettingsUserUpdateManyMutationInput = {
+    notificationPhone?: BoolFieldUpdateOperationsInput | boolean
+    notificationEmail?: BoolFieldUpdateOperationsInput | boolean
+    notificationBudgets?: BoolFieldUpdateOperationsInput | boolean
+    notificationReports?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SettingsUserUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    notificationPhone?: BoolFieldUpdateOperationsInput | boolean
+    notificationEmail?: BoolFieldUpdateOperationsInput | boolean
+    notificationBudgets?: BoolFieldUpdateOperationsInput | boolean
+    notificationReports?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2087,9 +3516,26 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
+  export type SettingsUserListRelationFilter = {
+    every?: SettingsUserWhereInput
+    some?: SettingsUserWhereInput
+    none?: SettingsUserWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type SettingsUserOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -2098,6 +3544,7 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     phone?: SortOrder
+    profilePhoto?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -2106,6 +3553,7 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     phone?: SortOrder
+    profilePhoto?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -2114,6 +3562,7 @@ export namespace Prisma {
     name?: SortOrder
     password?: SortOrder
     phone?: SortOrder
+    profilePhoto?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -2152,12 +3601,128 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type SettingsUserCountOrderByAggregateInput = {
+    userId?: SortOrder
+    notificationPhone?: SortOrder
+    notificationEmail?: SortOrder
+    notificationBudgets?: SortOrder
+    notificationReports?: SortOrder
+  }
+
+  export type SettingsUserMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    notificationPhone?: SortOrder
+    notificationEmail?: SortOrder
+    notificationBudgets?: SortOrder
+    notificationReports?: SortOrder
+  }
+
+  export type SettingsUserMinOrderByAggregateInput = {
+    userId?: SortOrder
+    notificationPhone?: SortOrder
+    notificationEmail?: SortOrder
+    notificationBudgets?: SortOrder
+    notificationReports?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type SettingsUserCreateNestedManyWithoutUserInput = {
+    create?: XOR<SettingsUserCreateWithoutUserInput, SettingsUserUncheckedCreateWithoutUserInput> | SettingsUserCreateWithoutUserInput[] | SettingsUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SettingsUserCreateOrConnectWithoutUserInput | SettingsUserCreateOrConnectWithoutUserInput[]
+    createMany?: SettingsUserCreateManyUserInputEnvelope
+    connect?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+  }
+
+  export type SettingsUserUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SettingsUserCreateWithoutUserInput, SettingsUserUncheckedCreateWithoutUserInput> | SettingsUserCreateWithoutUserInput[] | SettingsUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SettingsUserCreateOrConnectWithoutUserInput | SettingsUserCreateOrConnectWithoutUserInput[]
+    createMany?: SettingsUserCreateManyUserInputEnvelope
+    connect?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type NullableBytesFieldUpdateOperationsInput = {
+    set?: Uint8Array | null
+  }
+
+  export type SettingsUserUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SettingsUserCreateWithoutUserInput, SettingsUserUncheckedCreateWithoutUserInput> | SettingsUserCreateWithoutUserInput[] | SettingsUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SettingsUserCreateOrConnectWithoutUserInput | SettingsUserCreateOrConnectWithoutUserInput[]
+    upsert?: SettingsUserUpsertWithWhereUniqueWithoutUserInput | SettingsUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SettingsUserCreateManyUserInputEnvelope
+    set?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    disconnect?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    delete?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    connect?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    update?: SettingsUserUpdateWithWhereUniqueWithoutUserInput | SettingsUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SettingsUserUpdateManyWithWhereWithoutUserInput | SettingsUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SettingsUserScalarWhereInput | SettingsUserScalarWhereInput[]
+  }
+
+  export type SettingsUserUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SettingsUserCreateWithoutUserInput, SettingsUserUncheckedCreateWithoutUserInput> | SettingsUserCreateWithoutUserInput[] | SettingsUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SettingsUserCreateOrConnectWithoutUserInput | SettingsUserCreateOrConnectWithoutUserInput[]
+    upsert?: SettingsUserUpsertWithWhereUniqueWithoutUserInput | SettingsUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SettingsUserCreateManyUserInputEnvelope
+    set?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    disconnect?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    delete?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    connect?: SettingsUserWhereUniqueInput | SettingsUserWhereUniqueInput[]
+    update?: SettingsUserUpdateWithWhereUniqueWithoutUserInput | SettingsUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SettingsUserUpdateManyWithWhereWithoutUserInput | SettingsUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SettingsUserScalarWhereInput | SettingsUserScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutProfilesInput = {
+    create?: XOR<UserCreateWithoutProfilesInput, UserUncheckedCreateWithoutProfilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProfilesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutProfilesNestedInput = {
+    create?: XOR<UserCreateWithoutProfilesInput, UserUncheckedCreateWithoutProfilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProfilesInput
+    upsert?: UserUpsertWithoutProfilesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProfilesInput, UserUpdateWithoutProfilesInput>, UserUncheckedUpdateWithoutProfilesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2186,6 +3751,13 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedBytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -2242,6 +3814,160 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type SettingsUserCreateWithoutUserInput = {
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+  }
+
+  export type SettingsUserUncheckedCreateWithoutUserInput = {
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+  }
+
+  export type SettingsUserCreateOrConnectWithoutUserInput = {
+    where: SettingsUserWhereUniqueInput
+    create: XOR<SettingsUserCreateWithoutUserInput, SettingsUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type SettingsUserCreateManyUserInputEnvelope = {
+    data: SettingsUserCreateManyUserInput | SettingsUserCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SettingsUserUpsertWithWhereUniqueWithoutUserInput = {
+    where: SettingsUserWhereUniqueInput
+    update: XOR<SettingsUserUpdateWithoutUserInput, SettingsUserUncheckedUpdateWithoutUserInput>
+    create: XOR<SettingsUserCreateWithoutUserInput, SettingsUserUncheckedCreateWithoutUserInput>
+  }
+
+  export type SettingsUserUpdateWithWhereUniqueWithoutUserInput = {
+    where: SettingsUserWhereUniqueInput
+    data: XOR<SettingsUserUpdateWithoutUserInput, SettingsUserUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SettingsUserUpdateManyWithWhereWithoutUserInput = {
+    where: SettingsUserScalarWhereInput
+    data: XOR<SettingsUserUpdateManyMutationInput, SettingsUserUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SettingsUserScalarWhereInput = {
+    AND?: SettingsUserScalarWhereInput | SettingsUserScalarWhereInput[]
+    OR?: SettingsUserScalarWhereInput[]
+    NOT?: SettingsUserScalarWhereInput | SettingsUserScalarWhereInput[]
+    userId?: StringFilter<"SettingsUser"> | string
+    notificationPhone?: BoolFilter<"SettingsUser"> | boolean
+    notificationEmail?: BoolFilter<"SettingsUser"> | boolean
+    notificationBudgets?: BoolFilter<"SettingsUser"> | boolean
+    notificationReports?: BoolFilter<"SettingsUser"> | boolean
+  }
+
+  export type UserCreateWithoutProfilesInput = {
+    id?: string
+    email: string
+    name: string
+    password: string
+    phone?: string | null
+    profilePhoto?: Uint8Array | null
+  }
+
+  export type UserUncheckedCreateWithoutProfilesInput = {
+    id?: string
+    email: string
+    name: string
+    password: string
+    phone?: string | null
+    profilePhoto?: Uint8Array | null
+  }
+
+  export type UserCreateOrConnectWithoutProfilesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProfilesInput, UserUncheckedCreateWithoutProfilesInput>
+  }
+
+  export type UserUpsertWithoutProfilesInput = {
+    update: XOR<UserUpdateWithoutProfilesInput, UserUncheckedUpdateWithoutProfilesInput>
+    create: XOR<UserCreateWithoutProfilesInput, UserUncheckedCreateWithoutProfilesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutProfilesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProfilesInput, UserUncheckedUpdateWithoutProfilesInput>
+  }
+
+  export type UserUpdateWithoutProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+  }
+
+  export type UserUncheckedUpdateWithoutProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+  }
+
+  export type SettingsUserCreateManyUserInput = {
+    notificationPhone?: boolean
+    notificationEmail?: boolean
+    notificationBudgets?: boolean
+    notificationReports?: boolean
+  }
+
+  export type SettingsUserUpdateWithoutUserInput = {
+    notificationPhone?: BoolFieldUpdateOperationsInput | boolean
+    notificationEmail?: BoolFieldUpdateOperationsInput | boolean
+    notificationBudgets?: BoolFieldUpdateOperationsInput | boolean
+    notificationReports?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SettingsUserUncheckedUpdateWithoutUserInput = {
+    notificationPhone?: BoolFieldUpdateOperationsInput | boolean
+    notificationEmail?: BoolFieldUpdateOperationsInput | boolean
+    notificationBudgets?: BoolFieldUpdateOperationsInput | boolean
+    notificationReports?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SettingsUserUncheckedUpdateManyWithoutUserInput = {
+    notificationPhone?: BoolFieldUpdateOperationsInput | boolean
+    notificationEmail?: BoolFieldUpdateOperationsInput | boolean
+    notificationBudgets?: BoolFieldUpdateOperationsInput | boolean
+    notificationReports?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

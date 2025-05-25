@@ -3,6 +3,8 @@ import { z } from "zod";
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export async function authenticateController(
   request: FastifyRequest,
   reply: FastifyReply
@@ -45,13 +47,13 @@ export async function authenticateController(
       .status(200)
       .setCookie("accessToken", accessToken, {
         httpOnly: true, // JavaScript não pode acessar
-        secure: true, // HTTPS only
+        secure: isProduction, // HTTPS only
         sameSite: "strict", // Proteção CSRF
         maxAge: 15 * 60 * 1000, // 15 minutos
       })
       .setCookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: true,
+        secure: isProduction,
         sameSite: "strict",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
       })
