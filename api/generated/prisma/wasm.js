@@ -129,7 +129,7 @@ exports.Prisma.UserScalarFieldEnum = {
   profilePhoto: 'profilePhoto'
 };
 
-exports.Prisma.SettingsUserScalarFieldEnum = {
+exports.Prisma.PreferenceScalarFieldEnum = {
   userId: 'userId',
   notificationPhone: 'notificationPhone',
   notificationEmail: 'notificationEmail',
@@ -155,7 +155,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  SettingsUser: 'SettingsUser'
+  Preference: 'Preference'
 };
 
 /**

@@ -22,12 +22,12 @@ model User {
   phone        String? @unique
   profilePhoto Bytes?
 
-  profiles SettingsUser[]
+  profiles Preference[]
 
   @@map("users")
 }
 
-model SettingsUser {
+model Preference {
   user   User   @relation(fields: [userId], references: [id])
   userId String @id @map("user_id")
 
@@ -36,5 +36,5 @@ model SettingsUser {
   notificationBudgets Boolean @default(false) @map("notification_budgets")
   notificationReports Boolean @default(false) @map("notification_reports")
 
-  @@map("settings_user")
+  @@map("preferences")
 }
