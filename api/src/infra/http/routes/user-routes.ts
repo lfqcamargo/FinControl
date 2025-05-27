@@ -6,10 +6,16 @@ import { verifyJwt } from "@/infra/http/middlewares/verify-jwt";
 import { refreshTokenController } from "../controllers/users/refresh-token-controller";
 import { logoutController } from "../controllers/users/logout-controller";
 import { editUserController } from "../controllers/users/edit-user-controller";
+import { changePasswordController } from "../controllers/users/change-password-controller";
 
 export async function userRoutes(app: FastifyInstance) {
   app.post("/users", createUserController);
 
+  app.patch(
+    "/users/password",
+    { onRequest: [verifyJwt] },
+    changePasswordController
+  );
   app.put("/users", { onRequest: [verifyJwt] }, editUserController);
 
   /* Authentication */

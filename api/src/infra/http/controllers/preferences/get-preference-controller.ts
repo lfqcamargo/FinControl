@@ -13,7 +13,12 @@ export async function getPreferenceController(
       id: request.user.sub,
     });
 
-    return reply.status(200).send({ data: preference });
+    const dataPreference = {
+      ...preference,
+      userId: undefined,
+    };
+
+    return reply.status(200).send({ preferences: dataPreference });
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message });

@@ -17,16 +17,30 @@ export function ToastError({
     const dataMessage = response.data.message
 
     switch (status) {
+      case 401: {
+        toast.error(dataMessage)
+        break
+      }
+
+      case 403: {
+        toast.error('Operação não permitida.')
+        break
+      }
+
+      case 404: {
+        toast.error(dataMessage)
+        break
+      }
+
       case 409: {
         toast.error(dataMessage)
         break
       }
-      case 403:
-        toast.error('Operação não permitida.')
-        break
-      default:
+
+      default: {
         toast.error('Erro ao realizar procedimento.')
         break
+      }
     }
   } else {
     toast.error('Erro ao realizar procedimento. Sem resposta do servidor.')

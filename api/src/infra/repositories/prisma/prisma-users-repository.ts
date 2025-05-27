@@ -1,5 +1,5 @@
 import { prisma } from "@/infra/lib/prisma";
-import { UsersRepositoryInterface } from "../interfaces/users-repository-interface";
+import { UsersRepositoryInterface } from "@/domain/repositories/interfaces/users-repository-interface";
 import { Prisma, User, Preference } from "generated/prisma";
 
 export class PrismaUsersRepository implements UsersRepositoryInterface {
@@ -36,6 +36,10 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
       },
     });
 
+    if (!user) {
+      return null;
+    }
+
     return user;
   }
 
@@ -45,6 +49,10 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
         id,
       },
     });
+
+    if (!user) {
+      return null;
+    }
 
     return user;
   }

@@ -338,7 +338,6 @@ export function ProfileUpdate() {
       if (axios.isAxiosError(error)) {
         ToastError({ error })
       } else {
-        console.log(error)
         toast.error('Ocorreu um erro inesperado.')
       }
     }

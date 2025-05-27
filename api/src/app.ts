@@ -7,6 +7,7 @@ import { ZodError } from "zod";
 import { env } from "@/env";
 
 import cors from "@fastify/cors";
+import { preferenceRoutes } from "./infra/http/routes/preference-routes";
 
 export const app = fastify();
 
@@ -32,6 +33,7 @@ app.register(cors, {
 });
 
 app.register(userRoutes);
+app.register(preferenceRoutes);
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
