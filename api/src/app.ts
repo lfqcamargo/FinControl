@@ -2,7 +2,7 @@ import fastify from "fastify";
 import fastifyCookie from "@fastify/cookie";
 import fastifyMultipart from "@fastify/multipart";
 import fastifyJwt from "@fastify/jwt";
-import { userRoutes } from "@/http/routes/user-routes";
+import { userRoutes } from "@/infra/http/routes/user-routes";
 import { ZodError } from "zod";
 import { env } from "@/env";
 
