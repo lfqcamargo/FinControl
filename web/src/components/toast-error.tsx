@@ -17,6 +17,11 @@ export function ToastError({
     const dataMessage = response.data.message
 
     switch (status) {
+      case 400: {
+        toast.error(dataMessage)
+        break
+      }
+
       case 401: {
         toast.error(dataMessage)
         break

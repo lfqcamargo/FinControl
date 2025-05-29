@@ -22,9 +22,25 @@ export class InMemoryBudgetsRepository implements BudgetsRepositoryInterface {
     return this.items.find((item) => item.id === Number(id)) || null;
   }
 
-  async fetchByUserId(userId: string): Promise<Budget[] | null> {
-    const results = this.items.filter((item) => item.userId === userId);
-    return results.length > 0 ? results : null;
+  async fetchByUserId(userId: string, date: Date) {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+
+    const results = this.items.filter((item) => {
+      const itemDate = new Date(item.date);
+      return (
+        item.userId === userId &&
+        itemDate.getFullYear() === year &&
+        itemDate.getMonth() === month
+      );
+    });
+
+    const totalValue = results.reduce((acc, budget) => acc + budget.value, 0);
+
+    return {
+      budgets: results,
+      totalValue,
+    };
   }
 
   async save(data: Budget): Promise<Budget> {

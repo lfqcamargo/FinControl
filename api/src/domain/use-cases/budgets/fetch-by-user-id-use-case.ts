@@ -1,12 +1,16 @@
 import { BudgetsRepositoryInterface } from "@/domain/repositories/interfaces/budgets-repository-interface";
 import { Budget } from "generated/prisma";
 
+type BudgetWithoutUserId = Omit<Budget, "userId">;
+
 interface FetchBudgetsByUserIdUseCaseRequest {
   userId: string;
+  date: Date;
 }
 
 interface FetchBudgetsByUserIdUseCaseResponse {
-  budgets: Budget[];
+  budgets: BudgetWithoutUserId[];
+  totalValue: number;
 }
 
 export class FetchBudgetsByUserIdUseCase {
@@ -14,9 +18,18 @@ export class FetchBudgetsByUserIdUseCase {
 
   async execute({
     userId,
+    date,
   }: FetchBudgetsByUserIdUseCaseRequest): Promise<FetchBudgetsByUserIdUseCaseResponse> {
-    const budgets = await this.budgetsRepository.fetchByUserId(userId);
+    const result = await this.budgetsRepository.fetchByUserId(userId, date);
 
-    return { budgets: budgets || [] };
+    const budgets = result?.budgets || [];
+    const totalValue = result?.totalValue || 0;
+
+    const budgetsWithoutUserId = budgets.map(({ userId, ...rest }) => rest);
+
+    return {
+      budgets: budgetsWithoutUserId,
+      totalValue,
+    };
   }
 }

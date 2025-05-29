@@ -19,15 +19,29 @@ export class PrismaBudgetsRepository implements BudgetsRepositoryInterface {
     return budget;
   }
 
-  async fetchByUserId(userId: string): Promise<Budget[] | null> {
+  async fetchByUserId(userId: string, date: Date) {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+
+    const startDate = new Date(year, month, 1);
+    const endDate = new Date(year, month + 1, 1);
+
     const budgets = await prisma.budget.findMany({
-      where: { userId },
+      where: {
+        userId,
+        date: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
       orderBy: {
-        date: "desc",
+        title: "asc",
       },
     });
 
-    return budgets.length > 0 ? budgets : null;
+    const totalValue = budgets.reduce((acc, budget) => acc + budget.value, 0);
+
+    return { budgets, totalValue };
   }
 
   async save(data: Budget): Promise<Budget> {

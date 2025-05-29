@@ -24,9 +24,12 @@ export class CreateBudgetUseCase {
     color,
     date,
   }: CreateBudgetUseCaseRequest): Promise<CreateBudgetUseCaseResponse> {
-    const existingBudgets = await this.budgetsRepository.fetchByUserId(userId);
+    const { budgets, totalValue } = await this.budgetsRepository.fetchByUserId(
+      userId,
+      date
+    );
 
-    const isDuplicate = existingBudgets?.some(
+    const isDuplicate = budgets?.some(
       (budget) =>
         budget.title === title &&
         budget.date.getMonth() === date.getMonth() &&
