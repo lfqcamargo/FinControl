@@ -5,6 +5,7 @@ import fastifyJwt from "@fastify/jwt";
 import { userRoutes } from "@/infra/http/routes/user-routes";
 import { ZodError } from "zod";
 import { env } from "@/env";
+import { appRoutes } from "@/infra/http/routes";
 
 import cors from "@fastify/cors";
 import { preferenceRoutes } from "./infra/http/routes/preference-routes";
@@ -32,8 +33,7 @@ app.register(cors, {
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
 });
 
-app.register(userRoutes);
-app.register(preferenceRoutes);
+app.register(appRoutes);
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

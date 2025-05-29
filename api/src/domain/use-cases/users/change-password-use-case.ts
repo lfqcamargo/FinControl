@@ -24,9 +24,7 @@ export class ChangePasswordUseCase {
   }: ChangePasswordUseCaseRequest): Promise<ChangePasswordUseCaseResponse> {
     const user = await this.usersRepository.findById(userId);
 
-    console.log(user);
     if (!user) {
-      console.log("teste");
       throw new ResourceNotFoundError();
     }
 

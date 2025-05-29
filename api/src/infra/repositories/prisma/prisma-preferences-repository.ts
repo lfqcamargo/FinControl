@@ -5,6 +5,14 @@ import { Preference, Prisma } from "generated/prisma";
 export class PrismaPreferencesRepository
   implements PreferencesRepositoryInterface
 {
+  async create(data: Preference): Promise<Preference> {
+    const preference = await prisma.preference.create({
+      data,
+    });
+
+    return preference;
+  }
+
   async findById(userId: string): Promise<Preference | null> {
     const preference = await prisma.preference.findUnique({
       where: {

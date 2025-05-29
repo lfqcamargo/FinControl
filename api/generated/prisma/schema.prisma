@@ -23,6 +23,7 @@ model User {
   profilePhoto Bytes?
 
   profiles Preference[]
+  budgets  Budget[]
 
   @@map("users")
 }
@@ -37,4 +38,25 @@ model Preference {
   notificationReports Boolean @default(false) @map("notification_reports")
 
   @@map("preferences")
+}
+
+model Budget {
+  id    Int      @id @default(autoincrement())
+  title String
+  value Float
+  color String
+  date  DateTime
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("budgets")
+}
+
+model Expense {
+  id    Int    @id @default(autoincrement())
+  title String
+  value Float
+
+  @@map("expenses")
 }

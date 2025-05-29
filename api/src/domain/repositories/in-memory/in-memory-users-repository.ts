@@ -22,6 +22,10 @@ export class InMemoryUsersRepository implements UsersRepositoryInterface {
 
     await this.preferencesRepository.create({
       userId: user.id,
+      notificationBudgets: false,
+      notificationEmail: false,
+      notificationPhone: false,
+      notificationReports: false,
     });
 
     return user;

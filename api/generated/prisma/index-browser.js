@@ -137,6 +137,21 @@ exports.Prisma.PreferenceScalarFieldEnum = {
   notificationReports: 'notificationReports'
 };
 
+exports.Prisma.BudgetScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  value: 'value',
+  color: 'color',
+  date: 'date',
+  userId: 'userId'
+};
+
+exports.Prisma.ExpenseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  value: 'value'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -155,7 +170,9 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Preference: 'Preference'
+  Preference: 'Preference',
+  Budget: 'Budget',
+  Expense: 'Expense'
 };
 
 /**
