@@ -1,7 +1,7 @@
 import { Prisma, Budget } from "generated/prisma";
 
 export interface BudgetsRepositoryInterface {
-  create(data: Prisma.BudgetCreateInput): Promise<Budget>;
+  create(data: Prisma.BudgetUncheckedCreateInput): Promise<Budget>;
   findById(id: number): Promise<Budget | null>;
   fetchByUserId(
     userId: string,

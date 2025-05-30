@@ -5,7 +5,6 @@ import { SignUpPage } from './pages/auth/sign-up-page'
 import { AppLayout } from './pages/_layouts/app-layout'
 import { DashboardPage } from './pages/app/dashboard-page'
 import { TransactionsPage } from './pages/app/transactions-page'
-import { CategoriesPage } from './pages/app/categories-page'
 import { BudgetsPage } from './pages/app/budgets-page'
 import { ReportsPage } from './pages/app/reports-page'
 import { SettingsPage } from './pages/app/settings-page'
@@ -22,10 +21,6 @@ export const router = createBrowserRouter([
       {
         path: '/transactions',
         element: <TransactionsPage />,
-      },
-      {
-        path: '/categories',
-        element: <CategoriesPage />,
       },
       {
         path: '/budgets',

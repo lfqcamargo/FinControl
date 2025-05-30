@@ -9,7 +9,7 @@ describe("SaveBudget Use Case", () => {
     const saveBudgetUseCase = new SaveBudgetUseCase(budgetsRepository);
 
     const created = await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Transporte",
       value: 100,
       color: "#FF0000",
@@ -53,7 +53,7 @@ describe("SaveBudget Use Case", () => {
     const saveBudgetUseCase = new SaveBudgetUseCase(budgetsRepository);
 
     const created = await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Viagem",
       value: 500,
       color: "#333",

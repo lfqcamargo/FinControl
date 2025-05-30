@@ -41,7 +41,7 @@ export class CreateBudgetUseCase {
     }
 
     const budget = await this.budgetsRepository.create({
-      user: { connect: { id: userId } },
+      userId,
       title,
       value,
       color,

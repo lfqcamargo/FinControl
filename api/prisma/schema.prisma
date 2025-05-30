@@ -24,6 +24,7 @@ model User {
 
   profiles Preference[]
   budgets Budget[]
+  transactions Transaction[]
 
   @@map("users")
 }
@@ -50,13 +51,22 @@ model Budget {
   userId String  @map("user_id")
   user    User   @relation(fields: [userId], references: [id])
 
+  transactions Transaction[]
+
   @@map("budgets")
 }
 
-model Expense {
+model Transaction {
   id Int @id @default(autoincrement())
-  title String
+  description String
   value Float
+  observation String
 
-  @@map("expenses")
+  budgetId Int @map("budget_id")
+  budget Budget @relation(fields: [budgetId], references: [id])
+
+  userId String  @map("user_id")
+  user    User   @relation(fields: [userId], references: [id])
+
+  @@map("transactions")
 }

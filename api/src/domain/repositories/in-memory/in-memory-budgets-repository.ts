@@ -4,14 +4,14 @@ import { BudgetsRepositoryInterface } from "@/domain/repositories/interfaces/bud
 export class InMemoryBudgetsRepository implements BudgetsRepositoryInterface {
   public items: Budget[] = [];
 
-  async create(data: Prisma.BudgetCreateInput): Promise<Budget> {
-    const budget: Budget = {
+  async create(data: Prisma.BudgetUncheckedCreateInput): Promise<Budget> {
+    const budget = {
       id: this.items.length + 1,
       title: data.title,
       value: data.value,
       color: data.color,
       date: data.date as Date,
-      userId: data.user.connect?.id ?? "",
+      userId: data.userId,
     };
 
     this.items.push(budget);

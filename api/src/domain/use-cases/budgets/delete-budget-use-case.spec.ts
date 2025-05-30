@@ -9,7 +9,7 @@ describe("DeleteBudget Use Case", () => {
     const deleteBudgetUseCase = new DeleteBudgetUseCase(budgetsRepository);
 
     const budget = await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Educação",
       value: 200,
       color: "#123456",
@@ -39,7 +39,7 @@ describe("DeleteBudget Use Case", () => {
     const deleteBudgetUseCase = new DeleteBudgetUseCase(budgetsRepository);
 
     const budget = await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Saúde",
       value: 350,
       color: "#abcdef",

@@ -9,7 +9,7 @@ describe("FindBudgetById Use Case", () => {
     const findBudgetByIdUseCase = new FindBudgetByIdUseCase(budgetsRepository);
 
     const created = await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Moradia",
       value: 1000,
       color: "#333333",
@@ -48,7 +48,7 @@ describe("FindBudgetById Use Case", () => {
     const findBudgetByIdUseCase = new FindBudgetByIdUseCase(budgetsRepository);
 
     const budget = await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Transporte",
       value: 250,
       color: "#123123",

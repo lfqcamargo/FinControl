@@ -108,7 +108,7 @@ export function NewBudget({ open, onOpenChange }: NewBudgetProps) {
       if (axios.isAxiosError(error)) {
         ToastError({ error })
       } else {
-        toast.error('Erro ao atualizar a senha.')
+        toast.error('Erro interno.')
       }
     }
   }

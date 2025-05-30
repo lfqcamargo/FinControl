@@ -3,7 +3,7 @@ import { Prisma, Budget } from "generated/prisma";
 import { BudgetsRepositoryInterface } from "@/domain/repositories/interfaces/budgets-repository-interface";
 
 export class PrismaBudgetsRepository implements BudgetsRepositoryInterface {
-  async create(data: Prisma.BudgetCreateInput): Promise<Budget> {
+  async create(data: Prisma.BudgetUncheckedCreateInput) {
     const budget = await prisma.budget.create({
       data,
     });
@@ -11,7 +11,7 @@ export class PrismaBudgetsRepository implements BudgetsRepositoryInterface {
     return budget;
   }
 
-  async findById(id: number): Promise<Budget | null> {
+  async findById(id: number) {
     const budget = await prisma.budget.findUnique({
       where: { id },
     });
@@ -44,7 +44,7 @@ export class PrismaBudgetsRepository implements BudgetsRepositoryInterface {
     return { budgets, totalValue };
   }
 
-  async save(data: Budget): Promise<Budget> {
+  async save(data: Budget) {
     const updatedBudget = await prisma.budget.update({
       where: { id: data.id },
       data,
@@ -53,7 +53,7 @@ export class PrismaBudgetsRepository implements BudgetsRepositoryInterface {
     return updatedBudget;
   }
 
-  async delete(data: Budget): Promise<boolean> {
+  async delete(data: Budget) {
     try {
       await prisma.budget.delete({
         where: { id: data.id },

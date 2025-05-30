@@ -16,7 +16,7 @@ describe("CreateBudget Use Case", () => {
       date: new Date("2025-05-01"),
     });
 
-    expect(result.budget.id).toEqual(expect.any(Number)); // ou String se seu ID for string
+    expect(result.budget.id).toEqual(expect.any(Number));
     expect(result.budget.title).toBe("Alimentação");
   });
 

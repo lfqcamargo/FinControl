@@ -11,7 +11,6 @@ import {
   Home,
   PieChart,
   Settings,
-  Tag,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -94,13 +93,6 @@ export function DashboardSidebar() {
           collapsed={collapsed}
         />
         <NavItem
-          icon={<Tag className="h-5 w-5" />}
-          title="Categorias"
-          href="/categories"
-          isActive={location.pathname === '/categories'}
-          collapsed={collapsed}
-        />
-        <NavItem
           icon={<BarChart3 className="h-5 w-5" />}
           title="Orçamentos"
           href="/budgets"
@@ -114,21 +106,6 @@ export function DashboardSidebar() {
           isActive={location.pathname === '/reports'}
           collapsed={collapsed}
         />
-
-        {/* <NavItem //IMPLEMTNAR FUTURAMENTE
-          icon={<PieChart className="h-5 w-5" />}
-          title="Goals"
-          href="/goals"
-          isActive={location.pathname === '/goals'}
-          collapsed={collapsed}
-        />
-        <NavItem
-          icon={<PieChart className="h-5 w-5" />}
-          title="Calendar"
-          href="/calendar"
-          isActive={location.pathname === '/calendar'}
-          collapsed={collapsed}
-        /> */}
       </nav>
 
       <div className="border-t border-border/40 p-2 dark:border-border/20">

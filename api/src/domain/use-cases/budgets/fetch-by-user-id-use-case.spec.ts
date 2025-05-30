@@ -10,7 +10,7 @@ describe("FetchBudgetsByUserId Use Case", () => {
     );
 
     await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Moradia",
       value: 1000,
       color: "#333333",
@@ -18,7 +18,7 @@ describe("FetchBudgetsByUserId Use Case", () => {
     });
 
     await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Lazer",
       value: 400,
       color: "#0000FF",
@@ -26,7 +26,7 @@ describe("FetchBudgetsByUserId Use Case", () => {
     });
 
     await budgetsRepository.create({
-      user: { connect: { id: "user-02" } },
+      userId: "user-02",
       title: "Transporte",
       value: 300,
       color: "#123123",
@@ -50,7 +50,7 @@ describe("FetchBudgetsByUserId Use Case", () => {
     );
 
     await budgetsRepository.create({
-      user: { connect: { id: "user-01" } },
+      userId: "user-01",
       title: "Moradia",
       value: 1000,
       color: "#333333",
